@@ -1,49 +1,50 @@
 <% if logged_in? %>
 
-<p>ログイン完了ユーザ: <%= current_user.name %></p>
-
 <h1>タスク一覧</h1>
 
-  <ul>
-    <% @tasks.each do |task| %>
-      <li>
-        <%= link_to task.id, task %>
-        :
-        <%= task.status %>
-        &gt; 
-        <%= task.content %>
-      </li>
-    <% end %>
-  </ul>
+  <table>
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>ステータス</th>
+        <th>タスク</th>
+      </tr>
+    </thead>
+    <tbody>
+  
+<% @tasks.each do |task| %>
+      <tr>
+        <td>
+<%= link_to task.id, task %>        
+        </td>
+        <td>
+<%= task.status %>        
+        </td>
+      <td>
+<%= task.content %>       
+      </td>
+    </tr>
+   
+<% end %>
 
-<%= link_to '新規タスクの投稿', new_task_path %>
-<%= link_to 'ログアウト', logout_path, method: :delete %>
-
-<% else %>
-  <div class="text-center">
-    <h1>Log in</h1>
+    </tbody>
+  </table>
+  
+  <div>
+<%= paginate @tasks %>    
   </div>
+  
 
-  <div class="row">
-    <div class="col-sm-6 offset-sm-3">
+<%= link_to "新しいタスクの作成", new_task_path%>
+  <p>ログイン完了ユーザ: <%= current_user.name %></p>
+<% else %>  
 
-      <%= form_with(url: login_path, scope: :session, local: true) do |f| %>
-
-        <div class="form-group">
-          <%= f.label :email, 'Email' %>
-          <%= f.email_field :email, class: 'form-control' %>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :password, 'Password' %>
-          <%= f.password_field :password, class: 'form-control' %>
-        </div>
-
-        <%= f.submit 'Log in', class: 'btn btn-primary btn-block' %>
-      <% end %>
-
-      <p>New user? <%= link_to 'Sign up now!', signup_path %></p>
+  <div class="center jumbotron">
+    <div class="text-center">
+      <h1>Welcome to TaskLists</h1>
+    
+  <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>    
     </div>
-  </div>
+   <div>
 
 <% end %>
